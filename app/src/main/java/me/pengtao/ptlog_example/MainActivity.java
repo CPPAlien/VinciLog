@@ -2,7 +2,6 @@ package me.pengtao.ptlog_example;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -15,8 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PtLog.init(BuildConfig.DEBUG, "Pengtao", this);
+
         try {
-            PtLog.saveLog(this, "log.txt");
+            PtLog.saveLog("log.txt");
         } catch (IOException e) {
             e.printStackTrace();
             PtLog.e("create log failed", e);
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         PtLog.d("test");
 
         try {
-            PtLog.saveLog(this, "log1.txt");
+            PtLog.saveLog("log1.txt");
         } catch (IOException e) {
             e.printStackTrace();
             PtLog.e("create log failed", e);

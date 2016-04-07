@@ -20,26 +20,44 @@ import java.util.Locale;
  */
 public class PtLog {
     private static String LOG_TAG = "PtLog";
-    private static boolean enableLog = BuildConfig.DEBUG;//true: put on log display in logcat, put off it when release
+    private static boolean enableLog = false;//true: put on log display in logcat, put off it when release
     private static boolean enableLogFile = false; //true: save log at local, false, do not save log
 
     private static File logFile;
+    private static Context mContext;
 
+    /**
+     * init, you should call it before any PtLog used
+     * @param isEnable log is displayed
+     * @param tag log tag
+     * @param context context
+     */
     public static void init(boolean isEnable, String tag, Context context) {
         LOG_TAG = tag;
         enableLog = isEnable;
+        mContext = context;
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(context);
     }
 
-    public static void saveLog(Context context, String fileName) throws IOException {
+    /**
+     * start saving log in the file, it can be called multiple times
+     * and will save id different file
+     * the log saved under /Android/data/{package_name}/log
+     * @param fileName logfile name
+     * @throws IOException
+     */
+    public static void saveLog(String fileName) throws IOException {
+        if ( mContext == null ) {
+            throw new IOException(" PtLog is not initialized. ");
+        }
         enableLogFile = true;
         String dirPath = Environment.getExternalStorageDirectory().getPath() +
-                "/Android/data/" + context.getPackageName() + File.separator + "log";
+                "/Android/data/" + mContext.getPackageName() + File.separator + "log";
         File dir = new File(dirPath);
         //if dir is not exists and created failed throw exception
         if ( !dir.exists() && !dir.mkdirs()) {
-            throw new IOException();
+            throw new IOException(" create " + dirPath + " failed. ");
         }
         logFile = new File(dir, fileName);
     }
@@ -88,6 +106,10 @@ public class PtLog {
         return Log.w(LOG_TAG, con);
     }
 
+    /**
+     * after saveLog opened, call the method, append the text in log file
+     * @param text content
+     */
     public static void appendLog(String text) {
         if ( !enableLogFile || logFile == null ) {
             return;

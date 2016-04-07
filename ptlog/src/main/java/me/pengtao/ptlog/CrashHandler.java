@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * CrashHandler
  */
 public class CrashHandler implements UncaughtExceptionHandler {
 
@@ -54,14 +54,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
-        new Thread() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        }.start();
         collectDeviceInfo(mContext);
         saveCrashInfo2File(ex);
         return true;
@@ -79,16 +71,15 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 infos.put("versionCode", versionCode);
             }
         } catch (NameNotFoundException e) {
-            PtLog.e( "an error occured when collect package info", e );
+            PtLog.e( "an error occurred when collect package info", e);
         }
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-                PtLog.d(field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-                PtLog.e("an error occured when collect crash info", e);
+                PtLog.e("an error occurred when collect crash info", e);
             }
         }
     }
