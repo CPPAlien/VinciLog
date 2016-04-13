@@ -14,7 +14,7 @@ repositories{
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile 'com.github.CPPAlien:PtLog:1.0.0'
+    compile 'com.github.CPPAlien:PtLog:1.0.7'
 }
 ```
 
@@ -50,5 +50,7 @@ PtLog.e("test");
 
 ## TODO
 More friendly log format, like logger(https://github.com/orhanobut/logger)
+
+Can set different tag of different log
 
 Maybe send crash or debug info to Slack
