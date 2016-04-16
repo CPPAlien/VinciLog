@@ -51,6 +51,8 @@ public class PtLog {
         if ( mContext == null ) {
             throw new IOException(" PtLog is not initialized. ");
         }
+        if ( !enableLog ) return;
+
         enableLogFile = true;
         String dirPath = Environment.getExternalStorageDirectory().getPath() +
                 "/Android/data/" + mContext.getPackageName() + File.separator + "log";
