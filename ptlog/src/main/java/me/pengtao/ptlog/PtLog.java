@@ -1,7 +1,6 @@
 package me.pengtao.ptlog;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedWriter;
@@ -44,24 +43,21 @@ public class PtLog {
      * start saving log in the file, it can be called multiple times
      * and will save id different file
      * the log saved under /Android/data/{package_name}/log
-     * @param fileName logfile name
-     * @throws IOException
      */
-    public static void saveLog(String fileName) throws IOException {
-        if ( mContext == null ) {
-            throw new IOException(" PtLog is not initialized. ");
-        }
+    public static void startLogSave()  {
         if ( !enableLog ) return;
-
+        String fileName = "log.txt";
         enableLogFile = true;
-        String dirPath = Environment.getExternalStorageDirectory().getPath() +
-                "/Android/data/" + mContext.getPackageName() + File.separator + "log";
-        File dir = new File(dirPath);
-        //if dir is not exists and created failed throw exception
-        if ( !dir.exists() && !dir.mkdirs()) {
-            throw new IOException(" create " + dirPath + " failed. ");
-        }
+        File dir = mContext.getCacheDir();
         logFile = new File(dir, fileName);
+    }
+
+    public static String getLogPath() {
+        return logFile.getAbsolutePath();
+    }
+
+    public static boolean deleteLog() {
+        return logFile.delete();
     }
 
     private static final int RETURN_NOLOG = 99;
