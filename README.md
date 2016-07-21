@@ -28,22 +28,33 @@ So you are suggested putting the init code in the Application onCreate method
 
 ###log level instruction
 LogLevel.NONE : Do not show any log info
+
 LogLevel.DEBUG : Show debug and above log
+
 LogLevel.INFO : show info and below level log
+
 LogLevel.WARN  : show warn and below level log
+
 LogLevel.ERROR : only show error log
 
 ### Example
 VinciLog.init(LogLevel.DEBUG, "PENG", this);
+
 VinciLog.e("This is a test");
 
 If the code run, you can see the log displayed in Logcat:
+
 `07-21 14:18:01.738 8529-8529/? E/PENG: [1] MainActivity.onCreate(MainActivity.java:17):This is a test`
 
+
 `PENG` is the tag
+
 `[1]` is the id of thread the log printed in, 1 means in main thread.
+
 `MainActivity.onCreate` means the log printed in onCreate Method of MainActivity class
+
 `(MainActivity.java:17)` means the log is at 17 lines of the file
+
 `This is a test` is the content of the log
 
 ## TODO
